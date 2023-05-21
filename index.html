@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Mark Maintenance</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+    }
+
+    input.error {
+      border-color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Mark Maintenance</h1>
+  <form id="markForm">
+    <div id="studentFields">
+      <h3>Student 1</h3>
+      <input type="text" name="name1" placeholder="Student Name" required>
+      <input type="number" name="marks1" placeholder="Marks" required>
+    </div>
+    <button type="button" id="addButton">Add Student</button>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    let studentCount = 1;
+
+    function addStudent() {
+      studentCount++;
+
+      const studentFields = document.getElementById('studentFields');
+      const studentDiv = document.createElement('div');
+      studentDiv.innerHTML = `
+        <h3>Student ${studentCount}</h3>
+        <input type="text" name="name${studentCount}" placeholder="Student Name" required>
+        <input type="number" name="marks${studentCount}" placeholder="Marks" required>
+      `;
+      studentFields.appendChild(studentDiv);
+    }
+
+    document.getElementById('addButton').addEventListener('click', addStudent);
+
+    document.getElementById('markForm').addEventListener('submit', function(e) {
+      const inputs = document.querySelectorAll('input[name^="name"], input[name^="marks"]');
+      let isValid = true;
+
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          isValid = false;
+          input.classList.add('error');
+        } else {
+          input.classList.remove('error');
+        }
+      });
+
+      if (!isValid) {
+        e.preventDefault();
+        alert('Please fill in all fields.');
+      }
+    });
+  </script>
+</body>
+</html>
+
